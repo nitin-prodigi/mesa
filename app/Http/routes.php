@@ -12,5 +12,29 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/civil');
 });
+
+//coding area
+get('coding','Coding\IndexController@index');
+
+
+//admin area
+get('admin', function(){
+	return redirect('/admin/article');
+});
+
+$router->group([
+	'namespace' => 'Admin',
+	'middleware' => 'auth'
+], function(){
+	resource('admin/article','ArticleController');
+	resource('admin/menu','MenuController');
+});
+
+get('/auth/login', 'Auth\AuthController@getLogin');
+post('/auth/login', 'Auth\AuthController@postLogin');
+get('/auth/logout', 'Auth\AuthController@getLogout');
+
+//civil area
+get('civil','Civil\IndexController@index');
