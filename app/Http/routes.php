@@ -16,8 +16,10 @@ Route::get('/', function () {
 });
 
 //coding area
-get('coding','Coding\IndexController@index');
-
+Route::group(['namespace' => 'Coding'], function()
+{
+	get('coding','IndexController@index'); 
+});
 
 //admin area
 get('admin', function(){
@@ -28,6 +30,7 @@ $router->group([
 	'namespace' => 'Admin',
 	'middleware' => 'auth'
 ], function(){
+
 	resource('admin/article','ArticleController');
 	resource('admin/menu','MenuController');
 });
@@ -37,4 +40,9 @@ post('/auth/login', 'Auth\AuthController@postLogin');
 get('/auth/logout', 'Auth\AuthController@getLogout');
 
 //civil area
-get('civil','Civil\IndexController@index');
+Route::group(['namespace' => 'Civil'], function()
+{
+	//Input::merge(array('namespace' => 'civil'));
+
+	get('civil','IndexController@index'); 
+});

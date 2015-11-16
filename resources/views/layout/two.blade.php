@@ -18,6 +18,7 @@
          <div id="body">
             <div class="width">
                <aside class="sidebar big-sidebar left-sidebar">
+                  @section('left')
                   <ul>
                      <li class="color-bg">
                         <h4>Categories</h4>
@@ -40,7 +41,7 @@
                         <h4>About us</h4>
                         <ul>
                            <li class="text">
-                              <p style="margin: 0;">Aenean nec massa a tortor auctor sodales sed a dolor. Duis vitae lorem sem. Proin at velit vel arcu pretium luctus. 					<a href="#" class="readmore">Read More &raquo;</a></p>
+                              <p style="margin: 0;">Aenean nec massa a tortor auctor sodales sed a dolor. Duis vitae lorem sem. Proin at velit vel arcu pretium luctus.                <a href="#" class="readmore">Read More &raquo;</a></p>
                            </li>
                         </ul>
                      </li>
@@ -65,6 +66,7 @@
                         </ul>
                      </li>
                   </ul>
+                  @show
                </aside>
                
                <section id="content" class="two-column with-left-sidebar">

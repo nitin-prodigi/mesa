@@ -144,6 +144,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\MesaServiceProvider::class,
 
 
         /*
@@ -202,6 +203,8 @@ return [
         
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        'Mesa' => App\Helper\MesaFacade::class,
 
     ],
 

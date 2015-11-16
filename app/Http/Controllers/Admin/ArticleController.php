@@ -7,17 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ArticleController extends Controller
+
+class ArticleController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return view('admin.article.index');
+        $menus = $this->menuarr(); 
+        return view('admin.article.index')->withMenus($menus);
     }
 
     /**
