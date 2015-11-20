@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class MenuController extends Controller
+class MenuController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
+        $menus = $this->menuarr(); 
+//\Mesa::prr($menus);
+        return view('admin.menu.index')->withMenus($menus);
     }
 
     /**
