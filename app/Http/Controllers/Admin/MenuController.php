@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Menu;
+use Input;
 
 class MenuController extends BaseController
 {
@@ -17,73 +17,57 @@ class MenuController extends BaseController
     public function index()
     {
         $menus = $this->menuarr(); 
-//\Mesa::prr($menus);
-        return view('admin.menu.index')->withMenus($menus);
+// \Mesa::prr($menus);
+        return view('admin.menu.index')->withMenus($menus)->withPage('menu');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function addMenu()
     {
-        //
+        Input::merge(array_map('trim', Input::all()));
+
+        $level = (int) Input::get('level');
+        $name = Input::get('val');
+        $slug = preg_replace("/[^a-zA-Z0-9]/", "", $name);
+
+        $counter = 1;
+        while ($slug) {
+            $menu = Menu::where('slug', $slug);
+            if(!$menu->exists()){
+                $mn = new Menu;
+                $mn->slug = strtolower($slug);
+                $mn->title = ucwords($name );
+                $mn->parent = Input::get('id');
+                $mn->level = ++$level;
+                $mn->save();
+                break;
+            }else{
+                $slug .= '_'.$counter;
+            }
+        } 
+        return 1; 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function editMenu()
     {
-        //
+        Input::merge(array_map('trim', Input::all()));
+
+        $id = (int) Input::get('id');
+
+        $menu = Menu::find($id);
+        if($menu->exists()){
+            $menu->title = ucwords(Input::get('val'));
+            $menu->save();
+        }
+ 
+        return 1;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function deleteMenu()
     {
-        //
-    }
+        Input::merge(array_map('trim', Input::all()));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        $id = (int) Input::get('id');
+        Menu::destroy($id);
+        return 1;
+    }    
 }

@@ -867,3 +867,25 @@ custom css
 li .actions {
     float: right;
 }
+
+#content .top{
+	border-bottom: 1px dashed #999;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    text-align: right;
+}
+
+#content .bottom{
+	border-top: 1px dashed #999;
+    margin-top: 20px;
+    padding: 10px 0;
+    text-align: right;
+}
+
+.popup{
+	padding: 10px;
+}
+
+.fancybox-wrap a{
+	border: none
+}

@@ -19,10 +19,11 @@
 <ul class="width_listing" id="menu_listing">
 @foreach ($menus as $topmenu)
 	<li id="{{ $topmenu['slug'].'_'.$topmenu['level'].'_'.$topmenu['id'].'_'.$topmenu['parent'] }}">
-		<span>{{ $topmenu['title'] }}</span>
+		<span><a href="{{ url('/admin/topic/'. $topmenu['slug']) }}">{{ $topmenu['title'] }}</a></span>
 		<span class="actions">
 			<a href="javascript:void(0)" rel="add" title="Add new menu">add</a>
 			<a href="javascript:void(0)" rel="edit" title="Edit name">edit</a>
+			<a href="javascript:void(0)" rel="delete" title="Edit menu">delete</a>
 		</span>
 		@if(isset($topmenu['child']))
 			<ul>
@@ -38,7 +39,7 @@
 						<ul>
 							@foreach ($firstmenu['child'] as $secondmenu)
 								<li id="{{ $secondmenu['slug'].'_'.$secondmenu['level'].'_'.$secondmenu['id'].'_'.$secondmenu['parent'] }}">
-									<span>{{ $secondmenu['title'] }}</span>
+									<span><a href="{{ url('/admin/topic/' . $secondmenu['slug']) }}">{{ $secondmenu['title'] }}</a></span>
 									<span class="actions">
 										<a href="javascript:void(0)" rel="edit" title="Edit name">edit</a>
 										<a href="javascript:void(0)" rel="delete" title="Edit menu">delete</a>

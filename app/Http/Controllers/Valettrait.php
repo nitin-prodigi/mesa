@@ -19,15 +19,15 @@ trait Valettrait {
 
 
   	$last_men = array_shift($menutemp);
- 	foreach ($menutemp as $l2 => $p2_arr) {
- 		foreach ($p2_arr as $p2_key => $p2_value) {
- 			foreach ($p2_value as $p2_child_key => $p2_child_arr) {
- 				if(array_key_exists($p2_child_arr['id'], $last_men)){
- 					$menutemp[$l2][$p2_key][$p2_child_key]['child'] = $last_men[$p2_child_arr['id']];
- 				}
- 			}
- 		}
- 	}
+   	foreach ($menutemp as $l2 => $p2_arr) {
+   		foreach ($p2_arr as $p2_key => $p2_value) {
+   			foreach ($p2_value as $p2_child_key => $p2_child_arr) {
+   				if(array_key_exists($p2_child_arr['id'], $last_men)){
+   					$menutemp[$l2][$p2_key][$p2_child_key]['child'] = $last_men[$p2_child_arr['id']];
+   				}
+   			}
+   		}
+   	}
 
   	$last_men = array_shift($menutemp);
   	$menutree = array_shift($menutemp);
@@ -41,6 +41,14 @@ trait Valettrait {
 
 // \Mesa::prr($menutree);
   	return $menutree;
+  }
+
+
+  // get topic tree
+  public function topicarr()
+  {
+
+    exit('polo');
   }
 
   protected function menu_fmt($menu_arr)

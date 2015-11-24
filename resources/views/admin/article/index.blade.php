@@ -12,6 +12,12 @@
                   @stop
 
 @section('content')
+<div class="top">
+	<a class="button" href="#">Add New</a>
+	<a class="button" href="#">Save Position</a>
+	<a class="button" href="#">Edit</a>
+	<a class="button" href="#">Delete</a>
+</div>
 <ul>
 @foreach ($menus as $topmenu)
 	<li>
@@ -37,4 +43,8 @@
 @endforeach
 
 </ul>
+
+<div class="bottom">
+	
+</div>
 @stop

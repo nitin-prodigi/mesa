@@ -23,16 +23,26 @@ Route::group(['namespace' => 'Coding'], function()
 
 //admin area
 get('admin', function(){
-	return redirect('/admin/article');
+	return redirect('/admin/menu');
 });
 
 $router->group([
 	'namespace' => 'Admin',
 	'middleware' => 'auth'
 ], function(){
+	
+	resource('admin/menu','MenuController');
+	Route::post('admin/menu/{slug}', function($slug){
+    	$app = app();
+    	$controller = $app->make('\App\Http\Controllers\Admin\MenuController');
+    	return $controller->callAction($slug.'Menu', $parameters = array());
+	})->where('slug', '^(add|edit|delete)');
+
+	get('/admin/topic', ['uses' =>'TopicController@index']);
+	get('/admin/topic/{topic}', ['uses' =>'TopicController@index']);
 
 	resource('admin/article','ArticleController');
-	resource('admin/menu','MenuController');
+
 });
 
 get('/auth/login', 'Auth\AuthController@getLogin');
