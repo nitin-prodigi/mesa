@@ -3,7 +3,7 @@
    <head>
       @include('layout.head')
    </head>
-   <body id="{{ $page or 'common' }}">
+   <body class="{{ $page or 'common' }}">
       <div id="container" class="fixed-header">
          <header>
          </header>

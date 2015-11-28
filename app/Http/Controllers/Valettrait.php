@@ -45,10 +45,33 @@ trait Valettrait {
 
 
   // get topic tree
-  public function topicarr()
+  public function topicarr($topics)
   {
 
-    exit('polo');
+    // sort array as per its level
+    $reparr = [];
+    foreach ($topics as $topic) {
+      $reparr[$topic['level']][$topic['id']] = $topic;
+    }
+
+  $levelarr = array_reverse($reparr, true);
+ // \Mesa::prr($reparr);
+
+  while(sizeof($levelarr) > 1){
+    $parkey = current(array_keys($levelarr)) - 1;
+    $levelarr = array_reverse($levelarr,true);
+    $toparr = array_pop($levelarr);
+    $levelarr = array_reverse($levelarr,true);
+
+    foreach ($toparr as $key => $value) {
+      $levelarr[$parkey][$value['parent']]['child'][] = $value;
+    }
+    
+  }
+
+  $mortarr = array_shift($levelarr);
+ // \Mesa::prr($mortarr, 88);
+  return $mortarr;
   }
 
   protected function menu_fmt($menu_arr)

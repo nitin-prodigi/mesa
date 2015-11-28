@@ -16,43 +16,55 @@ Route::get('/', function () {
 });
 
 //coding area
-Route::group(['namespace' => 'Coding'], function()
-{
-	get('coding','IndexController@index'); 
-});
+	Route::group(['namespace' => 'Coding'], function()
+	{
+		get('coding','IndexController@index'); 
+	});
 
 //admin area
-get('admin', function(){
-	return redirect('/admin/menu');
-});
+	get('admin', function(){
+		return redirect('/admin/menu');
+	});
 
-$router->group([
-	'namespace' => 'Admin',
-	'middleware' => 'auth'
-], function(){
-	
-	resource('admin/menu','MenuController');
-	Route::post('admin/menu/{slug}', function($slug){
-    	$app = app();
-    	$controller = $app->make('\App\Http\Controllers\Admin\MenuController');
-    	return $controller->callAction($slug.'Menu', $parameters = array());
-	})->where('slug', '^(add|edit|delete)');
+	get('/admin/topic', function(){
+		return redirect('/admin/topic/economics');
+	});
 
-	get('/admin/topic', ['uses' =>'TopicController@index']);
-	get('/admin/topic/{topic}', ['uses' =>'TopicController@index']);
+	$router->group([
+		'namespace' => 'Admin',
+		'middleware' => 'auth'
+	], function(){
+		
+		// menu
+			resource('admin/menu','MenuController');
+			Route::post('admin/menu/{slug}', function($slug){
+		    	$app = app();
+		    	$controller = $app->make('\App\Http\Controllers\Admin\MenuController');
+		    	return $controller->callAction($slug.'Menu', $parameters = array());
+			})->where('slug', '^(add|edit|delete)');
 
-	resource('admin/article','ArticleController');
+		// topic
+			get('/admin/topic/{topic}', ['uses' =>'TopicController@index']);
+			Route::post('admin/topic/{slug}', function($slug){
+		    	$app = app();
+		    	$controller = $app->make('\App\Http\Controllers\Admin\TopicController');
+		    	return $controller->callAction($slug.'Topic', $parameters = array());
+			});
 
-});
+		// article
+			resource('admin/article','ArticleController');
 
-get('/auth/login', 'Auth\AuthController@getLogin');
-post('/auth/login', 'Auth\AuthController@postLogin');
-get('/auth/logout', 'Auth\AuthController@getLogout');
+	});
+
+// auth area
+	get('/auth/login', 'Auth\AuthController@getLogin');
+	post('/auth/login', 'Auth\AuthController@postLogin');
+	get('/auth/logout', 'Auth\AuthController@getLogout');
 
 //civil area
-Route::group(['namespace' => 'Civil'], function()
-{
-	//Input::merge(array('namespace' => 'civil'));
+	Route::group(['namespace' => 'Civil'], function()
+	{
+		//Input::merge(array('namespace' => 'civil'));
 
-	get('civil','IndexController@index'); 
-});
+		get('civil','IndexController@index'); 
+	});

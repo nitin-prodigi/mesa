@@ -1,62 +1,15 @@
 @extends('layout.two')
-                  @section('left')
-                  <ul>
-                     <li class="color-bg">
-                        <h4>Menus</h4>
-                        <ul>
-                           <li><a href="{{ url('/article/') }}">Menus</a></li>
-                           <li><a href="{{ url('/article/article') }}">Articles</a></li>
-                        </ul>
-                     </li>
-                  </ul>
-                  @stop
+@section('left')
+	 @include('partials.admin.menus')
+@stop
 
 @section('content')
 <div class="top">
-	<a class="button" href="#">Save Position</a>
+<h3>{{ $pagetitle }}</h3>
+<input type="hidden" name="pageslug" id="pageslug" value="{{ $pageslug }}" />
 </div>
-<ul>
-<ul class="width_listing" id="menu_listing">
-@foreach ($menus as $topmenu)
-	<li id="{{ $topmenu['slug'].'_'.$topmenu['level'].'_'.$topmenu['id'].'_'.$topmenu['parent'] }}">
-		<span><a href="{{ url('/admin/topic/'. $topmenu['slug']) }}">{{ $topmenu['title'] }}</a></span>
-		<span class="actions">
-			<a href="javascript:void(0)" rel="add" title="Add new menu">add</a>
-			<a href="javascript:void(0)" rel="edit" title="Edit name">edit</a>
-			<a href="javascript:void(0)" rel="delete" title="Edit menu">delete</a>
-		</span>
-		@if(isset($topmenu['child']))
-			<ul>
-			@foreach ($topmenu['child'] as $firstmenu)
-				<li id="{{ $firstmenu['slug'].'_'.$firstmenu['level'].'_'.$firstmenu['id'].'_'.$firstmenu['parent'] }}">
-					<span><a href="{{ url('/admin/topic/' . $firstmenu['slug']) }}">{{ $firstmenu['title'] }}</a></span>
-					<span class="actions">
-						<a href="javascript:void(0)" rel="add" title="Add new menu">add</a>
-						<a href="javascript:void(0)" rel="edit" title="Edit name">edit</a>
-						<a href="javascript:void(0)" rel="delete" title="Edit menu">delete</a>
-					</span>
-					@if(isset($firstmenu['child']))
-						<ul>
-							@foreach ($firstmenu['child'] as $secondmenu)
-								<li id="{{ $secondmenu['slug'].'_'.$secondmenu['level'].'_'.$secondmenu['id'].'_'.$secondmenu['parent'] }}">
-									<span><a href="{{ url('/admin/topic/' . $secondmenu['slug']) }}">{{ $secondmenu['title'] }}</a></span>
-									<span class="actions">
-										<a href="javascript:void(0)" rel="edit" title="Edit name">edit</a>
-										<a href="javascript:void(0)" rel="delete" title="Edit menu">delete</a>
-									</span>
-								</li>
-							@endforeach
-						</ul>
-					@endif
-				</li>
-			@endforeach
-			</ul>
-		@endif
-	</li>
 
-@endforeach
-
-</ul>
+@include('partials.admin.topics', array('topics' => $topics))
 <div class="bottom">
 	
 </div>
@@ -66,14 +19,14 @@
 @section('popupcontent')
 	<div class="popup add">
 		<form>
-			<input type="text" name="addmenu" class="addmenu" />
+			<input type="text" name="add" />
 			<a href="javascript:void(0)">Add</a>
 		</form>
 	</div>
 
 	<div class="popup edit">
 		<form>
-			<input type="text" name="editmenu" class="editmenu" />
+			<input type="text" name="edit" />
 			<a href="javascript:void(0)">Edit</a>
 		</form>
 	</div>
@@ -83,3 +36,7 @@
 			<a href="javascript:void(0)">Yes</a>
 	</div>
 @stop
+
+<?php
+ // \Mesa::prr($topics);
+?>

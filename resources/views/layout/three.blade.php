@@ -11,7 +11,7 @@
       {!! Html::script('js/custom.js') !!}
       <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
    </head>
-   <body>
+   <body class="{{ $page or 'common' }}">
       <div id="container" class="full-width">
          <header>
          </header>

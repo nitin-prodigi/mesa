@@ -872,8 +872,12 @@ li .actions {
 	border-bottom: 1px dashed #999;
     margin-bottom: 20px;
     padding: 10px 0;
+}
+
+#content .top .buttons{
     text-align: right;
 }
+
 
 #content .bottom{
 	border-top: 1px dashed #999;
@@ -884,6 +888,7 @@ li .actions {
 
 .popup{
 	padding: 10px;
+	display: none;
 }
 
 .fancybox-wrap a{

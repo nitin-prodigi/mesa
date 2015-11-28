@@ -67,7 +67,10 @@ class MenuController extends BaseController
         Input::merge(array_map('trim', Input::all()));
 
         $id = (int) Input::get('id');
-        Menu::destroy($id);
+        $menu = Menu::where('parent', $id);
+        if(!$menu->exists()){
+            Menu::destroy($id);
+        }
         return 1;
     }    
 }
