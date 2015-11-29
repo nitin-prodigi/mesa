@@ -54,6 +54,14 @@ Route::get('/', function () {
 		// article
 			resource('admin/article','ArticleController');
 
+		// media
+			resource('admin/media','MediaController@index');
+			Route::post('admin/media/{slug}', function($slug){
+		    	$app = app();
+		    	$controller = $app->make('\App\Http\Controllers\Admin\MediaController');
+		    	return $controller->callAction($slug.'Media', $parameters = array());
+			})->where('slug', '^(add|rmdir|delete|upload)');
+
 	});
 
 // auth area

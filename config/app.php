@@ -208,4 +208,6 @@ return [
 
     ],
 
+    'media_path' => public_path() . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR,
+
 ];

@@ -2,8 +2,6 @@
 
 body {
 	background: #ddd;
-	background-image: url('../img2.jpg');
-	background-repeat: no-repeat;
 	margin:0;
 	padding:0;
 	font-family: 'Source Sans Pro', 'sans-serif';
@@ -136,7 +134,7 @@ fieldset p label {
 	width: 150px;
 }
 
-form input, form select, form textarea {
+input, select, textarea {
 	padding: 5px;
 	color: #333333;
 	border: 1px solid #ddd;
@@ -874,7 +872,15 @@ li .actions {
     padding: 10px 0;
 }
 
-#content .top .buttons{
+#content .top .left, #content .top .right{
+	display: inline-block;
+	position: relative;
+}
+#content .top .left{
+	width: 60%
+}
+#content .top .right .buttons{
+	float:left;
     text-align: right;
 }
 
@@ -883,7 +889,6 @@ li .actions {
 	border-top: 1px dashed #999;
     margin-top: 20px;
     padding: 10px 0;
-    text-align: right;
 }
 
 .popup{
@@ -893,4 +898,9 @@ li .actions {
 
 .fancybox-wrap a{
 	border: none
+}
+
+.media .listing img{
+	max-width: 300px;
+	max-height: 100px;
 }
