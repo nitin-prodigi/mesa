@@ -1,5 +1,5 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Mesa's site</title>
+  <title>Mesa - {{ $pagetitle or '' }}</title>
   {!! Html::style('css/reset.css') !!}
   {!! Html::style('css/jquery.fancybox.css') !!}
 

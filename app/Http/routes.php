@@ -52,7 +52,17 @@ Route::get('/', function () {
 			});
 
 		// article
-			resource('admin/article','ArticleController');
+			get('/admin/article', function(){
+				return redirect('/admin/article/listing');
+			});
+			get('/admin/article/listing', ['uses' =>'ArticleController@index']);
+
+			// other routes
+			Route::any('admin/article/{slug}', function($slug){
+		    	$app = app();
+		    	$controller = $app->make('\App\Http\Controllers\Admin\ArticleController');
+		    	return $controller->callAction($slug.'Article', $parameters = array());
+			});
 
 		// media
 			resource('admin/media','MediaController@index');

@@ -1,15 +1,7 @@
 <!doctype html>
 <html>
    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>Mesa's site</title>
-      {!! Html::style('css/reset.css') !!}
-      {!! Html::style('css/styles.css') !!}
-      {!! Html::style('css/nt-awesome.min.css') !!}
-      {!! Html::script('js/jquery.js') !!}
-      {!! Html::script('js/superfish.js') !!}
-      {!! Html::script('js/custom.js') !!}
-      <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+     @include('layout.head')
    </head>
    <body class="{{ $page or 'common' }}">
       <div id="container" class="full-width">

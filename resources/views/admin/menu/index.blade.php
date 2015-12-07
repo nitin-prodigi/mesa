@@ -4,7 +4,7 @@
 @stop
 
 @section('content')
-<div class="top">
+<div class="top frame">
 	<a class="button" href="#">Save Position</a>
 </div>
 <ul>
@@ -48,7 +48,7 @@
 @endforeach
 
 </ul>
-<div class="bottom">
+<div class="bottom frame">
 	
 </div>
 @stop

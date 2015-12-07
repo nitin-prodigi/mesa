@@ -34,7 +34,6 @@ class MediaController extends BaseController
 
     public function addMedia()
     {
-        Input::merge(array_map('trim', Input::all()));
         $path = Input::get('path');
         $folder = Input::get('fld');
         $folder = preg_replace('/[^\da-z_-]/i', '', $folder);

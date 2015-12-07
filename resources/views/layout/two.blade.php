@@ -4,7 +4,7 @@
       @include('layout.head')
    </head>
    <body class="{{ $page or 'common' }}">
-      <div id="container" class="fixed-header">
+      <div id="container" class="full-width">
          <header>
          </header>
          <div id="body">
@@ -78,5 +78,6 @@
          </footer>
       </div>
       @include('partials.popup')
+      @include('partials.msgs')
    </body>
 </html>

@@ -1,50 +1,77 @@
 @extends('layout.two')
-                  @section('left')
-                  <ul>
-                     <li class="color-bg">
-                        <h4>Menus</h4>
-                        <ul>
-                           <li><a href="{{ url('/article/') }}">Menus</a></li>
-                           <li><a href="{{ url('/article/article') }}">Articles</a></li>
-                        </ul>
-                     </li>
-                  </ul>
-                  @stop
+@section('left')
+	 @include('partials.admin.menus')
+@stop
 
 @section('content')
-<div class="top">
-	<a class="button" href="#">Add New</a>
-	<a class="button" href="#">Save Position</a>
-	<a class="button" href="#">Edit</a>
-	<a class="button" href="#">Delete</a>
-</div>
-<ul>
-@foreach ($menus as $topmenu)
-	<li>
-		{{ $topmenu['title'] }}
-		@if(isset($topmenu['child']))
-			<ul>
-			@foreach ($topmenu['child'] as $firstmenu)
-				<li>
-					{{ $firstmenu['title'] }}
-					@if(isset($firstmenu['child']))
-						<ul>
-							@foreach ($firstmenu['child'] as $secondmenu)
-								<li>{{ $secondmenu['title'] }}</li>
-							@endforeach
-						</ul>
+<div class="top frame">
+	<div class="left">
+		<h3>{{ $pagetitle }}</h3>
+	</div>
+	<div class="right">
+		{!! Form::open(array('url' => 'admin/article/listing', 'method' => 'get')) !!}
+			<select id="menu" name="menu">
+				@foreach ($menus as $menu)
+					<option disabled>-------{{ $menu['title'] }}-------</option>
+					@if(isset($menu['child']))
+						@foreach ($menu['child'] as $submenu)
+							<option value="{{ $submenu['slug'] }}" @if($selmenu == $submenu['slug']) selected="selected" @endif>{{ $submenu['title'] }}</option>
+						@endforeach
 					@endif
-				</li>
-			@endforeach
-			</ul>
-		@endif
-	</li>
-
-@endforeach
-
-</ul>
-
-<div class="bottom">
-	
+				@endforeach
+			</select>
+			<select id="topic" name="topic">
+				<option>--choose--</option>
+			</select>
+			<input type="hidden" name="page" value="1" />
+			{!! Form::submit('Search') !!}
+		{!! Form::close() !!}
+		<input type="hidden" name="topic" id="seltopic" value="{{ $seltopic }}" />
+	</div>
 </div>
+<?php
+	$counter = 1;
+?>
+<div class="grunth">
+<table>
+	<thead>
+		<tr>
+			<td>S.No</td>
+			<td>Article</td>
+			<td>Status</td>
+			<td>Action</td>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach ($articles as $article)
+		<tr id="article_{{ $article['id'] }}">
+			<td>{{ $counter++ }}. {!! Form::checkbox('article', $article['id']) !!}</td>
+			<td>{{ $article['title'] }}</td>
+			<td>{{ $article['status'] ? 'Active':'Deactive' }}</td>
+			<td>
+				<a href="javascript:void(0)" class="edit">Edit</a>
+				<a href="javascript:void(0)" class="status">{{ $article['status'] ? 'Deactivate':'Activate' }}</a>
+			</td>
+		</tr>
+		@endforeach
+	</tbody>
+</table>
+</div>
+<div class="bottom frame">
+	<div class="left">
+		
+	</div>
+	<div class="right">
+		<a class="button" href="{{ url('admin/article/create') }}" rel="add">Add</a>
+		<a class="button delete" href="javascript:void(0)">Delete</a>
+	</div>
+</div>
+@stop
+
+
+@section('popupcontent')
+	<div class="popup delete">
+			<p>Are you sure you want to delete</p>
+			<a href="javascript:void(0)">Yes</a>
+	</div>
 @stop

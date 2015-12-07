@@ -17,7 +17,7 @@
 <script type="text/javascript">
 	var mediajson = <?php echo $mediadirs; ?>;
 </script>
-<div class="top">
+<div class="top frame">
 	<div class="left">
 		<h3>{{ $pagetitle }}</h3>
 	</div>
@@ -28,7 +28,7 @@
 </div>
 <ul class="listing">
 </ul>
-<div class="bottom">
+<div class="bottom frame">
 	{!! Form::open(array('url'=>'admin/media/upload','method'=>'POST', 'files'=>true)) !!}
     	<span class="path">
     		<span>Media</span>

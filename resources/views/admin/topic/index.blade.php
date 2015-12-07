@@ -4,13 +4,18 @@
 @stop
 
 @section('content')
-<div class="top">
-<h3>{{ $pagetitle }}</h3>
-<input type="hidden" name="pageslug" id="pageslug" value="{{ $pageslug }}" />
+<div class="top frame">
+	<div class="left">
+		<h3>{{ $pagetitle }}</h3>
+	</div>
+	<div class="right">
+		<input type="button" class="add" value=" Add "/>
+		<input type="hidden" name="pageslug" id="pageslug" value="{{ $pageslug }}" />		
+	</div>
 </div>
 
 @include('partials.admin.topics', array('topics' => $topics))
-<div class="bottom">
+<div class="bottom frame">
 	
 </div>
 @stop

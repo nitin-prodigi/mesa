@@ -2,88 +2,154 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Menu;
+use App\Topic;
+
+use App\Article;
+use App\ArticleContent;
+
+use Input;
+use Request;
 
 class ArticleController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        \View::share ( 'page', 'article');
+        \View::share ( 'pagetitle', 'Article');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $menus = $this->menuarr(); 
-        return view('admin.article.index')->withMenus($menus);
+        $menu = Input::get('menu','economics');
+        $topic = Input::get('topic',0);
+
+        $allmenus = Menu::where('level','<',2)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+        $sorted_menus = $this->clubarr($allmenus); 
+
+        $articles = Menu::where('slug',$menu)->first()->articles();
+        if($topic)
+            $articles->where('topic_id',$topic);
+
+        $selarticles = $articles->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title'])->toArray();
+
+        return view('admin.article.index')->with(array(
+            'menus' => $sorted_menus,
+            'selmenu' => $menu,
+            'seltopic' => $topic,
+            'articles' => $selarticles
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function searchArticle()
     {
-        //
+        $menuslug = Input::get('menu');
+        $menutopics = Menu::where('slug',$menuslug)->first()->topics()->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+        $topics = $this->clubarr($menutopics);
+        return json_encode($topics);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function statusArticle()
     {
-        //
+        $id = Input::get('id');
+        \DB::table('articles')
+            ->where('id', $id)
+            ->update(['status' => \DB::raw('if(status=1,0,1)')]);
+        return 1;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function referenceArticle()
     {
-        //
+        $menuslug = Input::get('menu');
+        $coremenu = Menu::where('slug',$menuslug)->first();
+        $references = array();
+        if($coremenu->exists()){
+            $references = Menu::where('parent', $coremenu->id)->orderBy('title','ASC')->get()->toArray();
+        }
+        return json_encode($references);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    // create article
+    public function createArticle()
     {
-        //
+        $id = Input::get('id',0);
+        $menu = Input::get('menu','economics');
+        $topic = Input::get('topic',0);
+        
+        if(Request::isMethod('post')){
+            $menuslug = Input::get('menu');
+            $coremenu = Menu::where('slug',$menuslug)->first();
+            
+            if($coremenu->exists()){
+                $menu_id = $coremenu->id;
+                
+                if($id){ // edit
+
+                    \Mesa::prr(Input::all());
+                }else{ // add
+                    // article
+                    $art_obj = new Article();
+                    $art_obj->menu_id = $menu_id;
+                    $art_obj->topic_id = $topic;
+                    $art_obj->save();
+
+                    $art_id = $art_obj->id;
+
+                    // article content
+                    $artcontObj =  new ArticleContent();
+                    $artcontObj->article_id = $art_id;
+                    $artcontObj->title = Input::get('title');
+                    $artcontObj->content = Input::get('content');
+                    $artcontObj->save();
+
+                    // article menu reference
+                    $formarr = Input::get('formarr');
+                    $references = $formarr['reference'];
+                    $art_obj->menu_relations()->detach();
+                    foreach($references as $reference_id) {
+                        $art_obj->menu_relations()->attach($reference_id);
+                    }
+                    return redirect()->to("/admin/article/listing?menu=$menuslug&topic=$topic&page=1")->with('onetime.success', "article ".$art_id." saved");
+                }
+            }
+        }
+
+        // edit
+        if($id){
+
+        }else{
+        // add
+
+        }
+
+        $allmenus = Menu::where('level','<',2)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+        $sorted_menus = $this->clubarr($allmenus); 
+        return view('admin.article.create')->with(array(
+            'id' => $id,
+            'menus' => $sorted_menus,
+            'selmenu' => $menu,
+            'seltopic' => $topic
+        ));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function deleteArticle()
     {
-        //
-    }
+        $articles = Input::get('formarr',array());
+        Articlecontent::whereIn('article_id', $articles)->delete();
+        foreach ($articles as $article) {
+            Article::find($article)->menu_relations()->detach();
+        }
+        Article::whereIn('id', $articles)->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return 1;
     }
 }

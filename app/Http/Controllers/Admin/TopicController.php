@@ -16,8 +16,8 @@ class TopicController extends BaseController
     public function index($menu = 'economics')
     { 
         $coremenu = Menu::where('slug',$menu)->first();
-        $menutopics = Menu::where('slug',$menu)->first()->topics()->get()->toArray();
- 		$topics = $this->topicarr($menutopics);
+        $menutopics = Menu::where('slug',$menu)->first()->topics()->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+ 		$topics = $this->clubarr($menutopics);
 
  		return view('admin.topic.index')->with(array(
  			'page' => 'topic',
@@ -42,7 +42,7 @@ class TopicController extends BaseController
             $mn->menu_id = $coremenu->id;
             $mn->title = ucwords($name );
             $mn->parent = $parent;
-            $mn->level = ++$level;
+            $mn->level = $level;
             $mn->save();
         }
         return 1; 

@@ -17,14 +17,14 @@ class MenuController extends BaseController
      */
     public function index()
     {
-        $menus = $this->menuarr(); 
-// \Mesa::prr($menus);
+        $allmenus = Menu::orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+        $menus = $this->clubarr($allmenus); 
+ //\Mesa::prr($menus);
         return view('admin.menu.index')->withMenus($menus)->withPage('menu');
     }
 
     public function addMenu()
     {
-        Input::merge(array_map('trim', Input::all()));
 
         $level = (int) Input::get('level');
         $name = Input::get('val');
@@ -50,8 +50,6 @@ class MenuController extends BaseController
 
     public function editMenu()
     {
-        Input::merge(array_map('trim', Input::all()));
-
         $id = (int) Input::get('id');
 
         $menu = Menu::find($id);
@@ -65,8 +63,6 @@ class MenuController extends BaseController
 
     public function deleteMenu()
     {
-        Input::merge(array_map('trim', Input::all()));
-
         $id = (int) Input::get('id');
         $menu = Menu::where('parent', $id);
         if(!$menu->exists()){

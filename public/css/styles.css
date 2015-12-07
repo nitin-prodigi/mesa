@@ -872,15 +872,18 @@ li .actions {
     padding: 10px 0;
 }
 
-#content .top .left, #content .top .right{
+#content .frame .left, #content .frame .right{
 	display: inline-block;
 	position: relative;
 }
-#content .top .left{
-	width: 60%
+#content .frame .left{
+	width: 58%
 }
-#content .top .right .buttons{
-	float:left;
+#content .frame .right{
+	width: 40%;
+	text-align: right;
+}
+#content .frame .buttons{
     text-align: right;
 }
 
@@ -903,4 +906,37 @@ li .actions {
 .media .listing img{
 	max-width: 300px;
 	max-height: 100px;
+}
+
+.one-column{
+	width: 100%
+}
+.grunth .secwrap{
+	padding-bottom: 5px;
+}
+
+.grunth .secwrap span{
+	display: inline-block;
+}
+.grunth .secwrap .gr_left{
+	width: 20%;
+	vertical-align: top;
+}
+
+.grunth .secwrap .gr_right{
+	width: auto;
+	overflow: auto;
+}
+.sitemsgs{
+ 	background-color: #adbfc9;
+    bottom: 0;
+    height: 5%;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+.sitemsgs p{
+	margin: 0 2px;
+	font-family: sans-serif;
+	color: #fff;
 }
