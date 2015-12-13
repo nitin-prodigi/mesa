@@ -393,7 +393,7 @@ $(document).ready(function(){
 						var optj = {
 							'value':v['id'],
 						}
-						if($curr_topic == v['id']){
+						if(refers.indexOf(v['id']) > -1){
 							optj.selected = 'selected'; 
 						}
 						$('<option/>',optj).text(v['title']).appendTo($secwrap);

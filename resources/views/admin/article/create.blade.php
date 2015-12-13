@@ -9,6 +9,14 @@
 	</div>
 </div>
 
+
+<?php
+	$menu_id = isset($populate['article']['menu_id']) ? $populate['article']['menu_id'] : 0;
+	$seltopic = isset($populate['article']['topic_id']) ? $populate['article']['topic_id'] : 0;
+?>
+<script type="text/javascript">
+	var refers = '<?php echo json_encode($populate['references']); ?>';
+</script>
 <div class="grunth">
 	{!! Form::open(array('url' => 'admin/article/create')) !!}
 	<section>
@@ -20,7 +28,7 @@
 						<option disabled>-------{{ $menu['title'] }}-------</option>
 						@if(isset($menu['child']))
 							@foreach ($menu['child'] as $submenu)
-								<option value="{{ $submenu['slug'] }}" @if($selmenu == $submenu['slug']) selected="selected" @endif>{{ $submenu['title'] }}</option>
+								<option value="{{ $submenu['slug'] }}" @if($menu_id == $submenu['id']) selected="selected" @endif>{{ $submenu['title'] }}</option>
 							@endforeach
 						@endif
 					@endforeach
@@ -45,7 +53,7 @@
 		</div>
 		<div class="secwrap">
 			<span class="gr_left">Title</span>
-			<span class="gr_right">{!! Form::text('title') !!}</span>
+			<span class="gr_right">{!! Form::text('title',isset($populate['article']['title']) ? $populate['article']['title'] : '') !!}</span>
 		</div>
 	</section>
 	<section>
@@ -54,7 +62,7 @@
 				<span class="gr_right"></span>
 			</div>
 			<div class="secwrap">
-				<span>{!! Form::textarea('content'); !!}</span>
+				<span>{!! Form::textarea('content',isset($populate['article']['content']) ? $populate['article']['content']: '') !!}</span>
 			</div>
 	</section>
 </div>

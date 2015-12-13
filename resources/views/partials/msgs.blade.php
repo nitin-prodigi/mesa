@@ -1,7 +1,6 @@
 @if (Session::has('onetime'))
 <?php
 	$msgs = Session::get('onetime');
-	print_r($msgs);
 ?>
 <div class="sitemsgs">
 	@foreach($msgs as $msgtype=>$msg)

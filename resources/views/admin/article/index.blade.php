@@ -49,7 +49,7 @@
 			<td>{{ $article['title'] }}</td>
 			<td>{{ $article['status'] ? 'Active':'Deactive' }}</td>
 			<td>
-				<a href="javascript:void(0)" class="edit">Edit</a>
+				<a href="{{ url('admin/article/create') . '?id='.$article['id'] }}" class="edit">Edit</a>
 				<a href="javascript:void(0)" class="status">{{ $article['status'] ? 'Deactivate':'Activate' }}</a>
 			</td>
 		</tr>

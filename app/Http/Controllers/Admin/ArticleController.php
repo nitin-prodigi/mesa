@@ -81,20 +81,38 @@ class ArticleController extends BaseController
     // create article
     public function createArticle()
     {
-        $id = Input::get('id',0);
-        $menu = Input::get('menu','economics');
-        $topic = Input::get('topic',0);
+        $art_id = Input::get('id',0);
         
         if(Request::isMethod('post')){
-            $menuslug = Input::get('menu');
+            $menuslug = Input::get('menu','economics');
             $coremenu = Menu::where('slug',$menuslug)->first();
+            $topic = Input::get('topic',0);
             
             if($coremenu->exists()){
                 $menu_id = $coremenu->id;
                 
-                if($id){ // edit
+                if($art_id){ // edit
 
-                    \Mesa::prr(Input::all());
+                    // article
+                    $art_obj = Article::find($art_id);
+                    $art_obj->update(array(
+                        'menu_id' => $menu_id,
+                        'topic_id' => $topic
+                    ));
+
+                    // article content
+                    $artcontObj =  $art_obj->articlecontent()->update(array(
+                        'title' => Input::get('title'),
+                        'content' => Input::get('content')
+                    ));
+
+                    // article menu reference
+                    $formarr = Input::get('formarr');
+                    $references = $formarr['reference'];
+                    $art_obj->menu_relations()->detach();
+                    foreach($references as $reference_id) {
+                        $art_obj->menu_relations()->attach($reference_id);
+                    }
                 }else{ // add
                     // article
                     $art_obj = new Article();
@@ -118,26 +136,36 @@ class ArticleController extends BaseController
                     foreach($references as $reference_id) {
                         $art_obj->menu_relations()->attach($reference_id);
                     }
-                    return redirect()->to("/admin/article/listing?menu=$menuslug&topic=$topic&page=1")->with('onetime.success', "article ".$art_id." saved");
                 }
+                return redirect()->to("/admin/article/listing?menu=$menuslug&topic=$topic&page=1")->with('onetime.success', "article ".$art_id." saved");
             }
         }
 
+        $poparr = array();
         // edit
-        if($id){
+        if($art_id){
+            $article_references = Article::find($art_id)->menu_relations()->get();
+            $references = array();
+            foreach ($article_references as $refer) {
+                $poparr['references'][] = $refer->id;
+            }
 
+            $poparr['article'] = Article::find($art_id)->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray();
+       
         }else{
         // add
-
+             $poparr = array(
+                'references' => array(),
+                'article' => array()
+            );
         }
 
         $allmenus = Menu::where('level','<',2)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
         $sorted_menus = $this->clubarr($allmenus); 
         return view('admin.article.create')->with(array(
-            'id' => $id,
+            'id' => $art_id,
             'menus' => $sorted_menus,
-            'selmenu' => $menu,
-            'seltopic' => $topic
+            'populate' => $poparr
         ));
     }
 
