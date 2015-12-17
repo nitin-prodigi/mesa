@@ -15,11 +15,6 @@ Route::get('/', function () {
     return redirect('/civil');
 });
 
-//coding area
-	Route::group(['namespace' => 'Coding'], function()
-	{
-		get('coding','IndexController@index'); 
-	});
 
 //admin area
 	get('admin', function(){
@@ -34,7 +29,7 @@ Route::get('/', function () {
 		'namespace' => 'Admin',
 		'middleware' => 'auth'
 	], function(){
-		
+		\View::share ( 'namespace', 'admin');
 		// menu
 			resource('admin/menu','MenuController');
 			Route::post('admin/menu/{slug}', function($slug){
@@ -65,6 +60,7 @@ Route::get('/', function () {
 			});
 
 		// media
+			get('/admin/media/json', 'MediaController@jsonMedia');
 			resource('admin/media','MediaController@index');
 			Route::post('admin/media/{slug}', function($slug){
 		    	$app = app();
@@ -82,7 +78,34 @@ Route::get('/', function () {
 //civil area
 	Route::group(['namespace' => 'Civil'], function()
 	{
-		//Input::merge(array('namespace' => 'civil'));
+		get('/civil', function(){
+			return redirect()->route('civil',array(
+				'controller' => 'article'
+			));
+		});
 
-		get('civil','IndexController@index'); 
+		\View::share ( 'namespace', 'civil');
+		Route::any('civil/{controller}/{action?}', ['as' =>'civil',function($controller, $action = 'index'){
+			$app = app();
+			$controller_path = '\App\Http\Controllers\Civil\\' . ucfirst($controller) .'Controller';
+			
+			$controller = $app->make($controller_path);
+			return $controller->callAction($action.'Action', $parameters = array());
+		}])->where(array(
+			'controller' => '^(index|article)',
+		));
+	});
+
+//coding area
+	Route::group(['namespace' => 'Coding'], function()
+	{
+		\View::share ( 'namespace', 'coding');
+		Route::any('coding/{controller}/{action}', ['as' =>'coding',function($controller, $action){
+			$app = app();
+			$controller_path = '\App\Http\Controllers\Admin\\' . ucfirst($controller) .'Controller';
+			$controller = $app->make($controller_path);
+			return $controller->callAction($action.'Action', $parameters = array());
+		}])->where(array(
+			'controller' => '^(index|coding)',
+		));
 	});

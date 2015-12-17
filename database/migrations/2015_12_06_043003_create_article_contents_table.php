@@ -16,7 +16,7 @@ class CreateArticleContentsTable extends Migration
             $table->increments('id');
             $table->integer('article_id')->unsigned();
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
 
             $table->foreign('article_id')->references('id')->on('articles');
             $table->timestamps();

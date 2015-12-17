@@ -378,7 +378,7 @@ $(document).ready(function(){
 		});
 
 		// reference
-		if($('.secwrap').has('select#reference')){
+		if($('.article .secwrap select#reference').length){
 			$.ajax({
 				url:"/admin/article/reference",
 				type:"POST",

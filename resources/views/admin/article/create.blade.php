@@ -1,5 +1,10 @@
 @extends('layout.one')
 
+@section('heead_append')
+  	{!! Html::script('js/ckeditor/ckeditor.js') !!}
+  	{!! Html::script('js/ckeditor/sample.js') !!}
+@stop
+
 @section('content')
 <div class="top frame">
 	<div class="left">
@@ -14,9 +19,7 @@
 	$menu_id = isset($populate['article']['menu_id']) ? $populate['article']['menu_id'] : 0;
 	$seltopic = isset($populate['article']['topic_id']) ? $populate['article']['topic_id'] : 0;
 ?>
-<script type="text/javascript">
-	var refers = '<?php echo json_encode($populate['references']); ?>';
-</script>
+
 <div class="grunth">
 	{!! Form::open(array('url' => 'admin/article/create')) !!}
 	<section>
@@ -62,7 +65,9 @@
 				<span class="gr_right"></span>
 			</div>
 			<div class="secwrap">
-				<span>{!! Form::textarea('content',isset($populate['article']['content']) ? $populate['article']['content']: '') !!}</span>
+				<span>{!! Form::textarea('content',isset($populate['article']['content']) ? $populate['article']['content']: '', [
+				'id' => 'editor'
+				]) !!}</span>
 			</div>
 	</section>
 </div>
@@ -79,6 +84,13 @@
 	{!! Form::hidden('id',$id) !!}
 	{!! Form::close() !!}
 	<input type="hidden" name="topic" id="seltopic" value="{{ $seltopic }}" />
+
+
+<script type="text/javascript">
+	var refers = '<?php echo json_encode($populate['references']); ?>';
+	initSample();
+</script>
+
 @stop
 
 

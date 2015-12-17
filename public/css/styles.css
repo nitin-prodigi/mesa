@@ -915,12 +915,10 @@ li .actions {
 	padding-bottom: 5px;
 }
 
-.grunth .secwrap span{
-	display: inline-block;
-}
 .grunth .secwrap .gr_left{
 	width: 20%;
 	vertical-align: top;
+	display: inline-block;
 }
 
 .grunth .secwrap .gr_right{

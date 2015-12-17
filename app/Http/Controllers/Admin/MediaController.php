@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 
 use Input;
 use Validator;
@@ -24,7 +24,7 @@ class MediaController extends BaseController
 
     public function index()
     {
-        $dirfiles = $this->dirToArray(config('app.media_path'), asset('media'));
+        $dirfiles = $this->dirToArray(config('app.media_path'), asset('media'), 1);
         return view('admin.media.index')->with(array(
             'dirs' => array('/var/www/html/mesa.leanis.in/public/media' => $dirfiles),
             'basemedia' => base_path('media'),
@@ -37,7 +37,7 @@ class MediaController extends BaseController
         $path = Input::get('path');
         $folder = Input::get('fld');
         $folder = preg_replace('/[^\da-z_-]/i', '', $folder);
-        echo $folder = $path. DIRECTORY_SEPARATOR . strtolower($folder);
+        $folder = $path. DIRECTORY_SEPARATOR . strtolower($folder);
 
         if(!is_dir($folder)){
             $oldmask = umask(0);
@@ -81,7 +81,7 @@ class MediaController extends BaseController
                  $validator = Validator::make(array('file'=> $file), $rules);
                   if($validator->passes()){
                     $filename = $file->getClientOriginalName();
-                    $filename = date('Ymd_His').'_'.preg_replace('/[^\da-z_-]/i', '', $filename);
+                    $filename = date('Ymd_His').'_'.preg_replace('/[^\da-z_\-\.]/i', '', $filename);
                     $upload_success = $file->move($path, $filename);
                     $uploadcount ++;
                   }
@@ -94,4 +94,31 @@ class MediaController extends BaseController
         }
         exit('hi');
     }
+
+    public function jsonMedia()
+    {
+        $dirfiles = $this->dirToArray(config('app.media_path'), asset('media'), 1);
+        $images = $this->onlyImages($dirfiles);
+        echo json_encode($images);
+        exit(1);
+    }
+
+    protected function onlyImages($img_arr, $dir = null)
+    {
+        static $imgarr = array();
+        foreach ($img_arr as $key => $value) {
+            if(is_array($value)){
+                $sdir = str_replace(config('app.media_path'),"",$key);
+                $this->onlyImages($value,$sdir);
+            }else{
+                $temparr['image'] = $value;
+                if(!is_null($dir))
+                    $temparr['folder'] = $dir;
+                
+                $imgarr[] = $temparr;
+            }
+        }
+        return $imgarr;
+    }
+
 }
