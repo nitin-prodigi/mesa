@@ -13,6 +13,8 @@ use App\Http\Controllers\Valettrait;
 class BaseController extends Controller
 {
 	use Valettrait;
+	protected $toparr = array();
+
     public function __construct()
     {
 
@@ -53,6 +55,29 @@ class BaseController extends Controller
 	   }
 	  
 	   return $result;
-	} 
+	}
+
+
+	protected function findTopics($topics, $topicid)
+	{
+		foreach ($topics as $childtopic) {
+			if($childtopic['id'] == $topicid){
+				$this->getTopicIds(array($childtopic));
+			} else if(isset($childtopic['child'])){
+				$this->findTopics($childtopic['child'], $topicid);
+			}
+		}
+		return $this->toparr;
+	}
+
+	protected function getTopicIds($topics)
+	{
+		foreach ($topics as $topic) {
+			array_push($this->toparr, $topic['id']);
+			if(isset($topic['child'])){
+				$this->getTopicIds($topic['child']);
+			}
+		}
+	}
 
 }

@@ -9,6 +9,8 @@
 		<h3>{{ $pagetitle }}</h3>
 	</div>
 	<div class="right">
+	</div>
+	<div class="full">
 		{!! Form::open(array('url' => 'admin/article/listing', 'method' => 'get')) !!}
 			<select id="menu" name="menu">
 				@foreach ($menus as $menu)

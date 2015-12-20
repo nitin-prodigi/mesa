@@ -2,6 +2,9 @@
 
 @section('heead_append')
   	{!! Html::script('js/ckeditor/ckeditor.js') !!}
+
+
+  	
   	{!! Html::script('js/ckeditor/sample.js') !!}
 @stop
 
@@ -65,9 +68,14 @@
 				<span class="gr_right"></span>
 			</div>
 			<div class="secwrap">
-				<span>{!! Form::textarea('content',isset($populate['article']['content']) ? $populate['article']['content']: '', [
-				'id' => 'editor'
-				]) !!}</span>
+				<span>
+					<textarea name="content" id="editor">
+						<?php 
+							if(isset($populate['article']['content']))
+								echo $populate['article']['content'];
+						?>
+					</textarea>
+				</span>
 			</div>
 	</section>
 </div>

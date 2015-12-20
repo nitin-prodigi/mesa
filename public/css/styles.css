@@ -14,6 +14,8 @@ body {
 	margin:0;
 	padding:0;
 }
+.tr{text-align: right}
+.fr{float: right}
 
 /** element defaults **/
 table {
@@ -45,6 +47,8 @@ code {
 	color:#ccc;
 	border: none;
 	font-family: "Courier New", Courier, monospace;
+	white-space: pre-wrap;
+	font-size: 0.7em;
 }
 blockquote {
 	border-left: 5px solid #ccc;
@@ -145,7 +149,7 @@ input, select, textarea {
 	font-size: 0.9em;
 }
 
-form input.formbutton {
+.formbutton {
 background: none repeat scroll 0% 0% #D5484F;
 color: #FFF;
 display: inline-block;
@@ -882,6 +886,11 @@ li .actions {
 #content .frame .right{
 	width: 40%;
 	text-align: right;
+}
+#content .frame .full{
+	width: 100%;
+	text-align: right;
+	clear: both;
 }
 #content .frame .buttons{
     text-align: right;

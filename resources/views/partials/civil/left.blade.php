@@ -6,7 +6,7 @@
                @if($topmenu['slug'] == 'civil')
                   @foreach($topmenu['child'] as $civil)
                      <li @if($menuid == $civil['id']) class="active" <?php if(isset($civil['child'])){ $refrences = $civil['child'];}  ?> @endif>
-                        <a href="{{ URL::route('civil', array('controller' => 'menu')).'?id='. $civil['id'] }}">{{ $civil['title'] }}</a>
+                        <a href="{{ URL::route('civil', array('action' => 'menu')).'?id='. $civil['id'] }}">{{ $civil['title'] }}</a>
                      </li>
                   @endforeach
                @endif
@@ -36,11 +36,14 @@
    @if(isset($refrences))
       <li>
          <h4>Refrencess</h4>
-         <ul>
+         <ul id="references">
              @foreach($refrences as $ref)
-               <li><a href="{{ URL::route('civil', array('controller' => 'menu','action' => 'reference')).'?id='. $ref['id'] }}" >{{ $ref['title'] }}</a></li>
+               <li>{!! Form::checkbox('reference', $ref['id']) !!}" {{ $ref['title'] }}</a></li>
              @endforeach
          </ul>
+         {!! Form::button('Search', array(
+            'class' => 'formbutton fr',
+         )) !!}
       </li>
    @endif
 </ul>

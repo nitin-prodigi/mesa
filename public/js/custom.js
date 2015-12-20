@@ -29,7 +29,7 @@ $(document).ready(function(){
 	    }
 	});
 
-
+/* Admin area */
 // menu page
 	$(".menu .actions a").click(function(){
 		var type = $(this).attr('rel')
@@ -349,6 +349,7 @@ $(document).ready(function(){
 		$.each(topicsjson, function(i,v) {
 			var optj = {
 				'value':v['id'],
+				'title':v['title']
 			}
 			if($curr_topic == v['id']){
 				optj.selected = 'selected'; 
@@ -457,4 +458,11 @@ $(document).ready(function(){
 		});
 	});
 
+/* Civil area */
+	$('#references button').click(function(){
+		var cks = [];
+		$('.left-sidebar #references input[type="checkbox"]:checked').each(function(){
+			cks.push($(this).val());
+		});
+	})
 });

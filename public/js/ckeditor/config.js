@@ -8,10 +8,22 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-	config.removePlugins = 'aotosave';
+	config.removePlugins = 'autosave';
 
 	config.extraPlugins = 'uploadimage';
 	config.extraPlugins = 'autogrow';
+
+	config.extraPlugins = 'codesnippet';
+	config.codeSnippet_languages = {
+	    javascript: 'JavaScript',
+	    php: 'PHP',
+	    css: 'CSS',
+	    html: 'HTML',
+	    ini: 'INI',
+	    json: 'JSON',
+	    xml: 'XML'
+	};
+	config.codeSnippet_theme = 'zenburn';
 
 	config.uploadUrl = 'http://mesa.leanis.in/admin/media/';
 	config.imageBrowser_listUrl = "http://mesa.leanis.in/admin/media/json";

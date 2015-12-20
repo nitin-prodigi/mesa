@@ -80,19 +80,19 @@ Route::get('/', function () {
 	{
 		get('/civil', function(){
 			return redirect()->route('civil',array(
-				'controller' => 'article'
+				'action' => 'article'
 			));
 		});
 
 		\View::share ( 'namespace', 'civil');
-		Route::any('civil/{controller}/{action?}', ['as' =>'civil',function($controller, $action = 'index'){
+		Route::get('civil/{action?}', ['as' =>'civil',function($action = 'article'){
 			$app = app();
-			$controller_path = '\App\Http\Controllers\Civil\\' . ucfirst($controller) .'Controller';
+			$controller_path = '\App\Http\Controllers\Civil\IndexController';
 			
 			$controller = $app->make($controller_path);
 			return $controller->callAction($action.'Action', $parameters = array());
 		}])->where(array(
-			'controller' => '^(index|article)',
+			'action' => '^(article|topic|menu|reference)',
 		));
 	});
 
