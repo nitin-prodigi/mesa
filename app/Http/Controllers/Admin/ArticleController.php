@@ -37,8 +37,13 @@ class ArticleController extends BaseController
         $sorted_menus = $this->clubarr($allmenus); 
 
         $articles = Menu::where('slug',$menu)->first()->articles();
-        if($topic)
-            $articles->where('topic_id',$topic);
+        if($topic){
+            $topicarr = Menu::where('slug',$menu)->first()->topics()->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+            $topics = $this->clubarr($topicarr);
+            $childtopics = $this->findTopics($topics,$topic);
+
+            $articles->whereIn('topic_id',$childtopics);
+        }
 
         $selarticles = $articles->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title'])->toArray();
 
@@ -84,14 +89,14 @@ class ArticleController extends BaseController
         $art_id = Input::get('id',0);
         
         if(Request::isMethod('post')){
-            $menuslug = Input::get('menu','economics');
-            $coremenu = Menu::where('slug',$menuslug)->first();
+            $menuslug = Input::get('menu',0);
             $topic = Input::get('topic',0);
             
-            if($coremenu->exists()){
+            if($menuslug && $topic){
+                $coremenu = Menu::where('slug',$menuslug)->first();
                 $menu_id = $coremenu->id;
-                
-                if($art_id){ // edit
+
+                if($art_id && $coremenu->exists()){ // edit
 
                     // article
                     $art_obj = Article::find($art_id);
@@ -109,9 +114,11 @@ class ArticleController extends BaseController
                     // article menu reference
                     $formarr = Input::get('formarr');
                     $references = $formarr['reference'];
-                    $art_obj->menu_relations()->detach();
-                    foreach($references as $reference_id) {
-                        $art_obj->menu_relations()->attach($reference_id);
+                    if(isset($references) && !empty($references)){
+                        $art_obj->menu_relations()->detach();
+                        foreach($references as $reference_id) {
+                            $art_obj->menu_relations()->attach($reference_id);
+                        }
                     }
                 }else{ // add
                     // article
@@ -132,17 +139,21 @@ class ArticleController extends BaseController
                     // article menu reference
                     $formarr = Input::get('formarr');
                     $references = $formarr['reference'];
-                    $art_obj->menu_relations()->detach();
-                    foreach($references as $reference_id) {
-                        $art_obj->menu_relations()->attach($reference_id);
+                    if(isset($references) && !empty($references)){
+                        $art_obj->menu_relations()->detach();
+                        foreach($references as $reference_id) {
+                            $art_obj->menu_relations()->attach($reference_id);
+                        }
                     }
                 }
                 return redirect()->to("/admin/article/listing?menu=$menuslug&topic=$topic&page=1")->with('onetime.success', "article ".$art_id." saved");
             }
         }
 
-        $poparr = array();
-        // edit
+        $poparr = array(
+            'references' => array(),
+            'article' => array()
+        );
         if($art_id){
             $article_references = Article::find($art_id)->menu_relations()->get();
             $references = array();
@@ -152,12 +163,6 @@ class ArticleController extends BaseController
 
             $poparr['article'] = Article::where('articles.id',$art_id)->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray();
        
-        }else{
-        // add
-             $poparr = array(
-                'references' => array(),
-                'article' => array()
-            );
         }
 
         $allmenus = Menu::where('level','<',2)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();

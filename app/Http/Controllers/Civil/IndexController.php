@@ -19,16 +19,14 @@ use App\ArticleContent;
 
 class IndexController extends BaseController
 {
+
     public function articleAction()
     {
+       
        $art_id = (int) Input::get('id', 0);
+       $article = Article::where('articles.id',$art_id);
 
-        if($art_id)
-            $article = Article::where('articles.id',$art_id);
-        else
-            $article = Article::take(1)->skip(0);
-
-        $currarticle = $article->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray(); 
+       $currarticle = $article->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray(); 
 
         $topicarr = Menu::find($currarticle['menu_id'])->topics()->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
         $topics = $this->clubarr($topicarr);
@@ -43,12 +41,16 @@ class IndexController extends BaseController
         );
 
         \View::share ( 'pagetitle', $currarticle['title']);
-        return view('civil.index.article')->with($viewarr);
+        return view('civil.article')->with($viewarr);
     }
 
     public function menuAction()
     {
     	$menu_id = (int) Input::get('id', 0);
+        if(!$menu_id){
+            $codemenu = Menu::where('slug','=','civil')->first();
+            $menu_id = $codemenu->id;
+        }
 
         $allmenus = Menu::orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
         $menus = $this->clubarr($allmenus); 
@@ -67,7 +69,7 @@ class IndexController extends BaseController
         );
 
         \View::share ( 'pagetitle', Menu::find($menu_id)->first()->title);
-        return view('civil.index.menulist')->with($viewarr);
+        return view('civil.menulist')->with($viewarr);
     }
 
     public function topicAction()
@@ -96,7 +98,7 @@ class IndexController extends BaseController
 	        );
 
 	        \View::share ( 'pagetitle', $currtopic->title);
-	        return view('civil.index.menulist')->with($viewarr);
+	        return view('civil.menulist')->with($viewarr);
     	}
     }
 }

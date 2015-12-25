@@ -80,7 +80,7 @@ Route::get('/', function () {
 	{
 		get('/civil', function(){
 			return redirect()->route('civil',array(
-				'action' => 'article'
+				'action' => 'menu'
 			));
 		});
 
@@ -97,15 +97,22 @@ Route::get('/', function () {
 	});
 
 //coding area
-	Route::group(['namespace' => 'Coding'], function()
+	Route::group(['namespace' => 'coding'], function()
 	{
+		get('/coding', function(){
+			return redirect()->route('coding',array(
+				'action' => 'menu'
+			));
+		});
+
 		\View::share ( 'namespace', 'coding');
-		Route::any('coding/{controller}/{action}', ['as' =>'coding',function($controller, $action){
+		Route::get('coding/{action?}', ['as' =>'coding',function($action = 'article'){
 			$app = app();
-			$controller_path = '\App\Http\Controllers\Admin\\' . ucfirst($controller) .'Controller';
+			$controller_path = '\App\Http\Controllers\Coding\IndexController';
+			
 			$controller = $app->make($controller_path);
 			return $controller->callAction($action.'Action', $parameters = array());
 		}])->where(array(
-			'controller' => '^(index|coding)',
+			'action' => '^(article|topic|menu|reference)',
 		));
 	});

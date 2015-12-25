@@ -495,8 +495,8 @@ img {
 }
 
 .three-column {
-	width: 46%;
-	margin: 0 2%;
+	width: 58%;
+	margin: 0 1%;
 }
 
 .with-right-sidebar {
@@ -531,7 +531,7 @@ article .article-info a {
 }
 
 .small-sidebar { 
-   width: 25%;
+   width: 20%;
 }
 
 .big-sidebar {

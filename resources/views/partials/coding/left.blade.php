@@ -1,0 +1,49 @@
+<ul>
+   <li class="color-bg">
+      <h4>Menus</h4>
+         <ul>
+            @foreach($menus as $topmenu)
+               @if($topmenu['slug'] == 'coding')
+                  @foreach($topmenu['child'] as $coding)
+                     <li @if($menuid == $coding['id']) class="active" <?php if(isset($coding['child'])){ $refrences = $coding['child'];}  ?> @endif>
+                        <a href="{{ URL::route('coding', array('action' => 'menu')).'?id='. $coding['id'] }}">{{ $coding['title'] }}</a>
+                     </li>
+                  @endforeach
+               @endif
+            @endforeach
+         </ul>
+   </li>
+   <li class="bg">
+      <h4>Related Articles</h4>
+      <ul>
+         <li class="text">
+            <p style="margin: 0;">Aenean nec massa a tortor auctor sodales sed a dolor. Duis vitae lorem sem. Proin at velit vel arcu pretium luctus. 					<a href="#" class="readmore">Read More &raquo;</a></p>
+         </li>
+      </ul>
+   </li>
+   <li>
+      <h4>Search site</h4>
+      <ul>
+         <li class="text">
+            <form method="get" class="searchform" action="#" >
+               <p>
+                  <input type="text" size="32" value="" name="s" class="s" />
+               </p>
+            </form>
+         </li>
+      </ul>
+   </li>
+   @if(isset($refrences))
+      <li>
+         <h4>Refrencess</h4>
+         <ul id="references">
+             @foreach($refrences as $ref)
+               <li>{!! Form::checkbox('reference', $ref['id']) !!}" {{ $ref['title'] }}</a></li>
+             @endforeach
+         </ul>
+         {!! Form::button('Search', array(
+            'class' => 'formbutton fr',
+         )) !!}
+      </li>
+   @endif
+</ul>

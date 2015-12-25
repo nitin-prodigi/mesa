@@ -1,6 +1,7 @@
 @extends('layout.two')
 @section('left')
 	 @include('partials.admin.menus')
+	 @include('partials.admin.menulist')
 @stop
 
 @section('content')
@@ -14,7 +15,7 @@
 	</div>
 </div>
 
-@include('partials.admin.topics', array('topics' => $topics))
+@include('partials.admin.topics', array('topics' => $topics,'currmenu' => $currmenu))
 <div class="bottom frame">
 	
 </div>

@@ -12,18 +12,28 @@ use Input;
 
 class TopicController extends BaseController
 {
-    //
+    public function __construct()
+    {
+        parent::__construct();
+        \View::share ( 'page', 'topic');
+        \View::share ( 'pagetitle', 'Topics');
+    }
+
     public function index($menu = 'economics')
     { 
         $coremenu = Menu::where('slug',$menu)->first();
+        
+        $allmenus = Menu::where('level','<',2)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+        $sorted_menus = $this->clubarr($allmenus); 
+
         $menutopics = Menu::where('slug',$menu)->first()->topics()->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
  		$topics = $this->clubarr($menutopics);
 
  		return view('admin.topic.index')->with(array(
- 			'page' => 'topic',
- 			'pagetitle' => $coremenu->title,
  			'pageslug' => $coremenu->slug,
- 			'topics' => $topics
+ 			'topics' => $topics,
+            'menus' => $sorted_menus,
+            'currmenu' => $menu
  		));
     }
 
