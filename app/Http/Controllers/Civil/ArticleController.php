@@ -29,7 +29,7 @@ class ArticleController extends BaseController
             $article = Article::take(1)->skip(0);
 
         $currarticle = $article->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray(); 
-
+\Mesa::prr($currarticle,55);
         $topicarr = Menu::find($currarticle['menu_id'])->topics()->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
         $topics = $this->clubarr($topicarr);
 

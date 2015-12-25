@@ -24,7 +24,7 @@ class IndexController extends BaseController
        $art_id = (int) Input::get('id', 0);
 
         if($art_id)
-            $article = Article::find($art_id);
+            $article = Article::where('articles.id',$art_id);
         else
             $article = Article::take(1)->skip(0);
 
