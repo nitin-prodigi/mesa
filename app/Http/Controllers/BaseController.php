@@ -80,4 +80,30 @@ class BaseController extends Controller
 		}
 	}
 
+	protected function formatCode($article)
+	{
+		echo $cont = $article['content'];
+		
+
+		$dom = new \domDocument;
+		$dom->loadHTML($cont);
+		$dom->preserveWhiteSpace = false;
+
+		$codeelement = $dom->getElementsByTagname('code');
+		$i = $codeelement->length - 1;
+		while ($i > -1) {
+		    $element = $codeelement->item($i);
+
+		    echo $element->nodeValue;
+		    echo "<br />";
+		    echo $newelement = htmlentities($element->nodeValue);
+		    exit;
+		    $element->parentNode->replaceChild($newelement, $element);
+		    $i--;
+		} 
+
+
+exit;
+		return $article;
+	}
 }

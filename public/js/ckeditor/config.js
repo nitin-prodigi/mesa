@@ -8,21 +8,20 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
+    config.autoParagraph = false;
+    config.enterMode = CKEDITOR.ENTER_BR;
+    config.allowedContent = true;
+
+    config.htmlEncodeOutput = false;
+	config.entities = false;
+
 	config.removePlugins = 'autosave';
 
 	config.extraPlugins = 'uploadimage';
 	config.extraPlugins = 'autogrow';
 
 	config.extraPlugins = 'codesnippet';
-	config.codeSnippet_languages = {
-	    javascript: 'JavaScript',
-	    php: 'PHP',
-	    css: 'CSS',
-	    html: 'HTML',
-	    ini: 'INI',
-	    json: 'JSON',
-	    xml: 'XML'
-	};
+	
 	config.codeSnippet_theme = 'zenburn';
 
 	config.uploadUrl = 'http://mesa.leanis.in/admin/media/';

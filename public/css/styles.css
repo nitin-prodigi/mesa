@@ -6,7 +6,7 @@ body {
 	padding:0;
 	font-family: 'Source Sans Pro', 'sans-serif';
 	font-size: 1.2em;
-	color: #888;
+	color: #3F3F3F;
 	font-weight: 300;
 }
 
@@ -49,6 +49,7 @@ code {
 	font-family: "Courier New", Courier, monospace;
 	white-space: pre-wrap;
 	font-size: 0.7em;
+	line-height: 1.2em;
 }
 blockquote {
 	border-left: 5px solid #ccc;
@@ -63,7 +64,7 @@ blockquote p {
 }
 
 p {
-	line-height: 1.7em;
+	line-height: 1.3em;
 	margin-bottom: 25px;
 }
 
@@ -186,13 +187,14 @@ span.required {
 
 h1 {
 	color: #000;
-	font-size: 2.7em;
+	font-size: 2.4em;
 	margin-bottom: 10px;
+	font-weight: 400;
 }
 
 h2 {
 	color: #363A3F;
-	font-size: 3em;
+	font-size: 2.2em;
 	letter-spacing: -2.5px;
 	padding: 0 0 10px;
 	font-weight: 400;
@@ -591,6 +593,10 @@ article .article-info a {
 	font-size: 0.85em;
 }
 
+.sidebar li ul li.active {
+	font-weight: bold;
+}
+
 .sidebar li ul li ul {
 	margin-top: 10px;
 }
@@ -947,3 +953,11 @@ li .actions {
 	font-family: sans-serif;
 	color: #fff;
 }
+
+#content h1{text-align: center; font-size: 1.8em; text-decoration: underline;}
+#content h2{font-size: 1.7em; color: #CE6458; text-transform: capitalize;}
+#content h3{font-size: 1.5em; color: #666666; margin-bottom: 4px; letter-spacing: -2px;}
+#content h4{font-size: 1.5em; color: #699bba;}
+#content ol,#content ul{margin-bottom: 20px;}
+#content ol{list-style-type: decimal;}
+#content li{line-height: 1.2em; padding-bottom: 5px;}

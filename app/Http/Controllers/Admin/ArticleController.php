@@ -161,8 +161,8 @@ class ArticleController extends BaseController
                 $poparr['references'][] = $refer->id;
             }
 
-            $poparr['article'] = Article::where('articles.id',$art_id)->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray();
-       
+            $poparr['article'] = $article = Article::where('articles.id',$art_id)->join('article_contents','article_contents.article_id','=','articles.id')->get(['articles.*','article_contents.title','article_contents.content'])->first()->toArray();
+            // $poparr['article'] = $this->formatCode($article);
         }
 
         $allmenus = Menu::where('level','<',2)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();

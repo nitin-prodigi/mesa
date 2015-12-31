@@ -72,7 +72,7 @@
 					<textarea name="content" id="editor">
 						<?php 
 							if(isset($populate['article']['content']))
-								echo $populate['article']['content'];
+								echo htmlentities($populate['article']['content']);
 						?>
 					</textarea>
 				</span>

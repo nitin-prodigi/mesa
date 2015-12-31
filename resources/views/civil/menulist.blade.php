@@ -8,7 +8,7 @@
 
 @section('content')
 <article>
-<h2>Articles</h2>
+<h1>Articles</h1>
 @foreach($articles as $article)
 	<li>
 		<a href="{{ URL::route('civil', array('action' => 'article')).'?id='. $article['id'] }}">{{ $article['title'] }}</a>

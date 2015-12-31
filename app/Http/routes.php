@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('/civil');
+    return redirect('/coding');
 });
 
 
