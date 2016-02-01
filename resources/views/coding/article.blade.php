@@ -1,4 +1,4 @@
-@extends('layout.three')
+@extends('layout.two')
 
 @section('heead_append')
   	{!! Html::script('js/ckeditor/ckeditor.js') !!}
@@ -13,6 +13,10 @@
 	 @include('partials.coding.left', array(
 	 	'menuid' => $article['menu_id']
 	 ))
+
+	 @include('partials.coding.right', array(
+	 	'topicid' => $article['topic_id']
+	 ))
 @stop
 
 @section('content')
@@ -20,10 +24,4 @@
  <h1>{{ $article['title'] }}</h1>
 {!! $article['content'] !!}
 </article>
-@stop
-
-@section('right')
-	 @include('partials.coding.right', array(
-	 	'topicid' => $article['topic_id']
-	 ))
 @stop
