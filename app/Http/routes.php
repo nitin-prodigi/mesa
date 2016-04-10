@@ -68,6 +68,17 @@ Route::get('/', function () {
 		    	return $controller->callAction($slug.'Media', $parameters = array());
 			})->where('slug', '^(add|rmdir|delete|upload)');
 
+		// remaining 
+		Route::get('admin/{controller?}/{action?}', ['as' =>'admin',function($controller = 'index', $action = 'index'){
+			$app = app();
+			$controller_path = '\App\Http\Controllers\Admin\\'.(ucfirst($controller)).'Controller';
+			
+			$createdController = $app->make($controller_path);
+			return $createdController->callAction($action.'Action', $parameters = array());
+		}])->where(array(
+			'controller' => '^(definitions)',
+			'action' => '^(index|topic)',
+		));
 	});
 
 // auth area
